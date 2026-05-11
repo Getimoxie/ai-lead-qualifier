@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import LeadForm, { QualificationResult } from "./components/LeadForm";
-import QualificationResultCard from "./components/QualificationResult";
+import LeadForm, { QualificationResult } from "@/components/LeadForm";
+import QualificationResultCard from "@/components/QualificationResult";
 
 export default function Home() {
   const [result, setResult] = useState<QualificationResult | null>(null);

@@ -37,14 +37,13 @@ export default function LeadForm({ onResult }: LeadFormProps) {
     setError(null);
 
     try {
-      const res = await fetch("/api/analyze", {
+      const res = await fetch("/api/qualify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
 
       const text = await res.text();
-      console.log("API response status:", res.status, "body:", text);
 
       if (!res.ok) {
         let errMsg = "Something went wrong";

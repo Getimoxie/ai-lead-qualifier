@@ -1,6 +1,6 @@
 "use client";
 
-import { QualificationResult } from "./LeadForm";
+import { QualificationResult } from "@/components/LeadForm";
 
 interface QualificationResultProps {
   result: QualificationResult;
@@ -36,7 +36,6 @@ export default function QualificationResultCard({ result, onReset }: Qualificati
 
   return (
     <div className="space-y-6">
-      {/* Score + Recommendation */}
       <div className="flex flex-wrap items-center gap-4">
         <div
           className={`flex items-center justify-center w-20 h-20 rounded-2xl border-2 text-4xl font-bold ${scoreColor(result.score)}`}
@@ -54,7 +53,6 @@ export default function QualificationResultCard({ result, onReset }: Qualificati
         </div>
       </div>
 
-      {/* Reasoning */}
       <div>
         <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
           Reasoning
@@ -62,7 +60,6 @@ export default function QualificationResultCard({ result, onReset }: Qualificati
         <p className="text-slate-300 leading-relaxed">{result.reasoning}</p>
       </div>
 
-      {/* Strengths */}
       {result.strengths.length > 0 && (
         <div>
           <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
@@ -79,7 +76,6 @@ export default function QualificationResultCard({ result, onReset }: Qualificati
         </div>
       )}
 
-      {/* Concerns */}
       {result.concerns.length > 0 && (
         <div>
           <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
