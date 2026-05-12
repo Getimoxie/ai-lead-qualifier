@@ -2,12 +2,20 @@
 
 import { useState } from "react";
 
+export interface CompanyResearch {
+  description: string;
+  recentNews: string[];
+  fundingInfo: string;
+  companySize: string;
+}
+
 export interface QualificationResult {
   score: number;
   recommendation: "pursue" | "nurture" | "pass";
   reasoning: string;
   strengths: string[];
   concerns: string[];
+  research?: CompanyResearch;
 }
 
 interface LeadFormProps {
@@ -18,6 +26,7 @@ export default function LeadForm({ onResult }: LeadFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
+    companyWebsiteUrl: "",
     companyName: "",
     companyUrl: "",
     industry: "",
@@ -52,8 +61,7 @@ export default function LeadForm({ onResult }: LeadFormProps) {
       }
 
       if (!text) throw new Error("Empty response from server");
-      const data: QualificationResult = JSON.parse(text);
-      onResult(data);
+      onResult(JSON.parse(text));
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
     } finally {
@@ -66,6 +74,29 @@ export default function LeadForm({ onResult }: LeadFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Optional Tavily research URL */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-1.5">
+          Company Website URL
+          <span className="ml-2 text-xs text-slate-500 font-normal">optional — used for AI research</span>
+        </label>
+        <input
+          type="url"
+          name="companyWebsiteUrl"
+          value={form.companyWebsiteUrl}
+          onChange={handleChange}
+          placeholder="https://acme.com"
+          className={inputClass}
+        />
+        {form.companyWebsiteUrl && (
+          <p className="mt-1.5 text-xs text-slate-500">
+            ✦ Tavily will research this company before scoring
+          </p>
+        )}
+      </div>
+
+      <div className="border-t border-slate-700/50" />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-1.5">
@@ -125,9 +156,7 @@ export default function LeadForm({ onResult }: LeadFormProps) {
             required
             className={inputClass}
           >
-            <option value="" disabled>
-              Select range
-            </option>
+            <option value="" disabled>Select range</option>
             <option value="1-10">1–10</option>
             <option value="11-50">11–50</option>
             <option value="51-200">51–200</option>
@@ -169,7 +198,7 @@ export default function LeadForm({ onResult }: LeadFormProps) {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
             </svg>
-            Analyzing lead...
+            {form.companyWebsiteUrl ? "Researching & analyzing..." : "Analyzing lead..."}
           </>
         ) : (
           "Analyze Lead"

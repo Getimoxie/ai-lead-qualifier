@@ -6,13 +6,10 @@ export interface Lead {
   id: string;
   run_id: string;
   lead_input: {
-    companyName: string;
     companyUrl: string;
-    industry: string;
-    headcount: string;
-    notes: string | null;
   };
   result: {
+    companyName: string;
     recommendation: "pursue" | "nurture" | "pass";
     reasoning: string;
     strengths: string[];
@@ -54,7 +51,8 @@ export default function HistoryList({ leads }: { leads: Lead[] }) {
       {leads.map((lead) => {
         const tier = tierBadge(lead.tier);
         const isOpen = expanded === lead.id;
-        const { companyName, companyUrl } = lead.lead_input;
+        const companyName = lead.result?.companyName ?? lead.lead_input.companyUrl;
+        const companyUrl = lead.lead_input.companyUrl;
 
         return (
           <li key={lead.id} className="bg-slate-800/60 border border-slate-700 rounded-xl overflow-hidden">

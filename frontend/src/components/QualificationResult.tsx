@@ -36,6 +36,7 @@ export default function QualificationResultCard({ result, onReset }: Qualificati
 
   return (
     <div className="space-y-6">
+      {/* Score + Recommendation */}
       <div className="flex flex-wrap items-center gap-4">
         <div
           className={`flex items-center justify-center w-20 h-20 rounded-2xl border-2 text-4xl font-bold ${scoreColor(result.score)}`}
@@ -53,6 +54,7 @@ export default function QualificationResultCard({ result, onReset }: Qualificati
         </div>
       </div>
 
+      {/* Reasoning */}
       <div>
         <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
           Reasoning
@@ -60,6 +62,7 @@ export default function QualificationResultCard({ result, onReset }: Qualificati
         <p className="text-slate-300 leading-relaxed">{result.reasoning}</p>
       </div>
 
+      {/* Strengths */}
       {result.strengths.length > 0 && (
         <div>
           <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
@@ -76,6 +79,7 @@ export default function QualificationResultCard({ result, onReset }: Qualificati
         </div>
       )}
 
+      {/* Concerns */}
       {result.concerns.length > 0 && (
         <div>
           <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
@@ -89,6 +93,50 @@ export default function QualificationResultCard({ result, onReset }: Qualificati
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {/* Company Research — only shown when Tavily was used */}
+      {result.research && (
+        <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-5 space-y-4">
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-400">
+            Company Research
+          </h3>
+
+          {result.research.description && (
+            <div>
+              <p className="text-xs text-slate-500 mb-1">Description</p>
+              <p className="text-slate-300 text-sm leading-relaxed">{result.research.description}</p>
+            </div>
+          )}
+
+          {result.research.fundingInfo && (
+            <div>
+              <p className="text-xs text-slate-500 mb-1">Funding & Revenue</p>
+              <p className="text-slate-300 text-sm leading-relaxed">{result.research.fundingInfo}</p>
+            </div>
+          )}
+
+          {result.research.companySize && (
+            <div>
+              <p className="text-xs text-slate-500 mb-1">Company Size</p>
+              <p className="text-slate-300 text-sm">{result.research.companySize}</p>
+            </div>
+          )}
+
+          {result.research.recentNews.length > 0 && (
+            <div>
+              <p className="text-xs text-slate-500 mb-2">Recent News</p>
+              <ul className="space-y-1">
+                {result.research.recentNews.map((headline, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                    <span className="text-slate-600 flex-shrink-0 mt-0.5">→</span>
+                    {headline}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
 
